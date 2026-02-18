@@ -39,3 +39,5 @@ docker compose up --build
 
 - Frontend: http://localhost:5173  
 - Backend API: http://localhost:3000
+
+Note: AWS Fargate CORS issues documented for Phase 2.
