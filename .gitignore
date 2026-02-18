@@ -16,6 +16,10 @@ out/
 .env.production.local
 !.env.example
 
+# AWS / config (task definitions, etc.)
+backend/*.json
+task-def.json
+
 # AWS credentials
 .aws/
 *.pem
