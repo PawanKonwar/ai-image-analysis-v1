@@ -1,0 +1,14 @@
+# Copy to terraform.tfvars and fill in your values
+
+aws_region   = "us-east-1"
+project_name = "ai-image-analysis"
+environment  = "dev"
+
+db_name     = "ai_image_analysis"
+db_username = "postgres"
+db_password = "CHANGE_ME_STRONG_PASSWORD"
+
+openai_api_key = "sk-your-openai-api-key"
+
+# Email for billing alarm - you will receive a confirmation email
+billing_alarm_email = "your-email@example.com"
