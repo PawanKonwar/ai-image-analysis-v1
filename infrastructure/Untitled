@@ -1,8 +1,0 @@
-# The email where you want to receive budget alerts
-billing_alarm_email = "your-email@gmail.com"
-
-# A strong password for your PostgreSQL database (keep it simple: no special characters like @ or !)
-db_password         = "MySecurePassword2026"
-
-# Your OpenAI API key from your OpenAI dashboard
-openai_api_key      = "sk-proj-your-actual-key-here"
