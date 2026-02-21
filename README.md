@@ -38,6 +38,6 @@ docker compose up --build
 ```
 
 - Frontend: http://localhost:5173  
-- Backend API: http://localhost:3000
+- Backend API: https://ai-image-analysis-v1.onrender.com
 
 Note: AWS Fargate CORS issues documented for Phase 2.

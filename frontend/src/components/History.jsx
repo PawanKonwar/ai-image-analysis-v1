@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
+const API_URL = import.meta.env.VITE_API_URL || 'https://ai-image-analysis-v1.onrender.com';
 
 function formatDate(dateStr) {
   const d = new Date(dateStr);

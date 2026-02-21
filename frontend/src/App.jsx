@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import ImageAnalyzer from './components/ImageAnalyzer'
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+const API_URL = import.meta.env.VITE_API_URL || 'https://ai-image-analysis-v1.onrender.com'
 
 function getCategoryColor(category) {
   const c = (category || '').toLowerCase()

@@ -3,7 +3,7 @@ import { useState, useCallback, useRef } from 'react'
 const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
 const MAX_SIZE = 10 * 1024 * 1024 // 10MB
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000'
+const API_URL = import.meta.env.VITE_API_URL || 'https://ai-image-analysis-v1.onrender.com'
 
 function ResultsCard({ result, onClear, isFromHistory }) {
   if (!result) return null
