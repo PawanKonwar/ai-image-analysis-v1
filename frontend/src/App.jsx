@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
 import ImageAnalyzer from './components/ImageAnalyzer'
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://ai-image-analysis-v1.onrender.com'
+// VITE_API_URL=/api for Netlify proxy. Use full URL (e.g. http://localhost:3000) for local dev.
+const API_BASE = (import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '');
+const API_URL = API_BASE.startsWith('http') ? `${API_BASE}/api` : (API_BASE || '/api');
 
 function getCategoryColor(category) {
   const c = (category || '').toLowerCase()
@@ -89,7 +91,7 @@ function App() {
     async function fetchHistory() {
       setHistoryLoading(true)
       try {
-        const res = await fetch(`${API_URL}/api/history`)
+        const res = await fetch(`${API_URL}/history`, { cache: 'no-store' })
         if (!res.ok) throw new Error('Failed to fetch history')
         const data = await res.json()
         setHistory(data)
@@ -104,7 +106,7 @@ function App() {
   }, [])
 
   const handleAnalyzed = () => {
-    fetch(`${API_URL}/api/history`)
+    fetch(`${API_URL}/history`)
       .then((res) => res.ok ? res.json() : [])
       .then((data) => {
         setHistory(data)
@@ -115,7 +117,7 @@ function App() {
 
   const handleDelete = async (id) => {
     try {
-      const res = await fetch(`${API_URL}/api/history/${id}`, { method: 'DELETE' })
+      const res = await fetch(`${API_URL}/history/${id}`, { method: 'DELETE' })
       if (res.ok) {
         setHistory((prev) => prev.filter((item) => item.id !== id))
         setToast('Image deleted')

@@ -3,7 +3,9 @@ import { useState, useCallback, useRef } from 'react'
 const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
 const MAX_SIZE = 10 * 1024 * 1024 // 10MB
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://ai-image-analysis-v1.onrender.com'
+// VITE_API_URL=/api for Netlify proxy. Use full URL (e.g. http://localhost:3000) for local dev.
+const API_BASE = (import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '');
+const API_URL = API_BASE.startsWith('http') ? `${API_BASE}/api` : (API_BASE || '/api');
 
 function ResultsCard({ result, onClear, isFromHistory }) {
   if (!result) return null
@@ -176,7 +178,7 @@ function ImageAnalyzer({ onAnalyzed, onUploadLoadingChange, uploadLoading = fals
       const formData = new FormData()
       formData.append('file', file)
 
-      const res = await fetch(`${API_URL}/api/upload`, {
+      const res = await fetch(`${API_URL}/upload`, {
         method: 'POST',
         body: formData,
       })

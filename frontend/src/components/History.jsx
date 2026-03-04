@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 
-const API_URL = import.meta.env.VITE_API_URL || 'https://ai-image-analysis-v1.onrender.com';
+// Empty = same-origin (Netlify proxy). Set VITE_API_URL for local dev
+const API_URL = import.meta.env.VITE_API_URL ?? '';
 
 function formatDate(dateStr) {
   const d = new Date(dateStr);
