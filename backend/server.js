@@ -1,3 +1,4 @@
+// Clean build - all new credentials
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
