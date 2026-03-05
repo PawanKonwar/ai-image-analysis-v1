@@ -13,16 +13,17 @@ async function loadConfig() {
     return;
   }
   const { S3Client, GetObjectCommand } = await import('@aws-sdk/client-s3');
+  
+  // FIXED: Credentials removed to use IAM Task Role
   const bootstrapClient = new S3Client({
-    region: process.env.AWS_REGION || 'us-east-1',
-    credentials: process.env.AWS_ACCESS_KEY_ID
-      ? { accessKeyId: process.env.AWS_ACCESS_KEY_ID, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY }
-      : undefined,
+    region: process.env.AWS_REGION || 'us-east-1'
   });
+
   const bucket = 'ai-image-storage-pawankonwar-2026';
   const response = await bootstrapClient.send(new GetObjectCommand({ Bucket: bucket, Key: 'config.json' }));
   const body = await response.Body.transformToString();
   const config = JSON.parse(body);
+  
   Object.assign(process.env, {
     PORT: String(config.PORT ?? process.env.PORT),
     OPENAI_API_KEY: config.OPENAI_API_KEY ?? process.env.OPENAI_API_KEY,
@@ -48,12 +49,9 @@ async function main() {
   const app = express();
   const PORT = process.env.PORT || 3000;
 
+  // FIXED: Credentials removed to use IAM Task Role
   const s3Client = new S3Client({
-    region: process.env.AWS_REGION || 'us-east-1',
-    credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-    },
+    region: process.env.AWS_REGION || 'us-east-1'
   });
 
   const upload = multer({ storage: multer.memoryStorage() });
