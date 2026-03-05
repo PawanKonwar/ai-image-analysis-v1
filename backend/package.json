@@ -2,13 +2,13 @@
   "name": "ai-image-analysis-backend",
   "version": "1.0.0",
   "description": "AI Image Analysis backend API",
-  "main": "src/index.js",
+  "main": "server.js",
   "type": "module",
   "scripts": {
-    "start": "node src/index.js",
+    "start": "node server.js",
     "server": "node server.js",
     "server:dev": "node --watch server.js",
-    "dev": "node --watch src/index.js"
+    "dev": "node --watch server.js"
   },
   "engines": {
     "node": ">=20.0.0"
