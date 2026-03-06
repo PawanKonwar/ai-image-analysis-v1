@@ -1,7 +1,8 @@
 import { useState, useEffect, useCallback } from 'react';
 
-// Empty = same-origin (Netlify proxy). Set VITE_API_URL for local dev
-const API_URL = import.meta.env.VITE_API_URL ?? '';
+// VITE_API_URL = API Gateway Invoke URL. Local dev: http://localhost:3000
+const API_BASE = (import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '');
+const API_URL = API_BASE.startsWith('http') ? `${API_BASE}/api` : (API_BASE || '/api');
 
 function formatDate(dateStr) {
   const d = new Date(dateStr);

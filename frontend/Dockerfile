@@ -3,10 +3,13 @@ FROM node:20-alpine
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install
+RUN npm install --production
 
-COPY . .
+COPY server.js ./
+COPY global-bundle.pem ./
+COPY src/ ./src/
+COPY models/ ./models/
 
-EXPOSE 5173
+EXPOSE 3000
 
-CMD ["npm", "run", "dev"]
+CMD ["node", "server.js"]

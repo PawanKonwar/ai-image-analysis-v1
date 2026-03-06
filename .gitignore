@@ -7,10 +7,12 @@ build/
 .next/
 out/
 
-# Environment & secrets (never commit credentials)
+# Environment & secrets (never commit credentials - use IAM + Parameter Store in prod)
 .env
 .env.*
 .env.local
+backend/.env
+backend/.env.local
 config.json
 .env.development.local
 .env.test.local

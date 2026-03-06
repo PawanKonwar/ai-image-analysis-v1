@@ -1,0 +1,15 @@
+# Never copy credentials into images - backend uses IAM Task Role + Parameter Store
+.env
+.env.*
+.env.local
+backend/.env
+backend/.env.local
+*.pem
+*.key
+*.p12
+*.pfx
+credentials
+config
+aws-credentials*
+node_modules
+.git

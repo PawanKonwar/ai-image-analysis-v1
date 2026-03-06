@@ -1,4 +1,4 @@
-/// Clean build///
+// Clean build//
 import dotenv from 'dotenv';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -12,18 +12,22 @@ async function loadConfig() {
   if (process.env.NODE_ENV !== 'production') {
     return;
   }
-  const { S3Client, GetObjectCommand } = await import('@aws-sdk/client-s3');
-  
-  // FIXED: Credentials removed to use IAM Task Role
-  const bootstrapClient = new S3Client({
-    region: process.env.AWS_REGION || 'us-east-1'
-  });
+  const region = process.env.AWS_REGION || 'us-east-1';
+  const paramPath = process.env.CONFIG_PARAM_PATH || '/ai-image-analysis/config';
 
-  const bucket = 'ai-image-storage-pawankonwar-2026';
-  const response = await bootstrapClient.send(new GetObjectCommand({ Bucket: bucket, Key: 'config.json' }));
-  const body = await response.Body.transformToString();
-  const config = JSON.parse(body);
-  
+  const { SSMClient, GetParameterCommand } = await import('@aws-sdk/client-ssm');
+  const ssm = new SSMClient({ region });
+
+  const { Parameter } = await ssm.send(new GetParameterCommand({
+    Name: paramPath,
+    WithDecryption: true,
+  }));
+
+  if (!Parameter?.Value) {
+    throw new Error(`Parameter Store config not found at ${paramPath}`);
+  }
+
+  const config = JSON.parse(Parameter.Value);
   Object.assign(process.env, {
     PORT: String(config.PORT ?? process.env.PORT),
     OPENAI_API_KEY: config.OPENAI_API_KEY ?? process.env.OPENAI_API_KEY,
@@ -32,7 +36,7 @@ async function loadConfig() {
     AWS_S3_BUCKET_NAME: config.S3_BUCKET_NAME ?? config.AWS_S3_BUCKET_NAME ?? process.env.AWS_S3_BUCKET_NAME,
     CORS_ORIGIN: config.CORS_ORIGIN ?? process.env.CORS_ORIGIN,
   });
-  console.log('Config loaded from S3');
+  console.log('Config loaded from Parameter Store');
 }
 
 async function main() {
@@ -56,11 +60,13 @@ async function main() {
 
   const upload = multer({ storage: multer.memoryStorage() });
 
-  app.use(cors({ 
-    origin: ['https://shiny-tiramisu-c7e947.netlify.app', 'http://localhost:5173'], 
-    methods: ['GET', 'POST', 'DELETE'], 
+  const corsOrigin = process.env.CORS_ORIGIN || '*';
+  const origins = corsOrigin === '*' ? '*' : corsOrigin.split(',').map((o) => o.trim());
+  app.use(cors({
+    origin: origins,
+    methods: ['GET', 'POST', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true
+    credentials: true,
   }));
   app.use(express.json({ limit: '10mb' }));
 
@@ -157,10 +163,8 @@ Rules:
       const imageUrl = item.image_url || item.s3_url;
       if (imageUrl && imageUrl.includes('.amazonaws.com/')) {
         const extractedKey = imageUrl.split('.amazonaws.com/')[1];
-        await s3Client.send(new DeleteObjectCommand({
-          Bucket: 'ai-image-storage-pawankonwar-2026',
-          Key: extractedKey,
-        }));
+        const bucket = process.env.AWS_S3_BUCKET_NAME || 'ai-image-storage-pawankonwar-2026';
+        await s3Client.send(new DeleteObjectCommand({ Bucket: bucket, Key: extractedKey }));
       }
 
       await item.destroy();

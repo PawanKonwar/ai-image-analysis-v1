@@ -3,7 +3,7 @@ import { useState, useCallback, useRef } from 'react'
 const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
 const MAX_SIZE = 10 * 1024 * 1024 // 10MB
 
-// VITE_API_URL=/api for Netlify proxy. Use full URL (e.g. http://localhost:3000) for local dev.
+// VITE_API_URL = API Gateway Invoke URL. Local dev: http://localhost:3000
 const API_BASE = (import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '');
 const API_URL = API_BASE.startsWith('http') ? `${API_BASE}/api` : (API_BASE || '/api');
 

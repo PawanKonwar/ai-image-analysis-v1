@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import ImageAnalyzer from './components/ImageAnalyzer'
 
-// VITE_API_URL=/api for Netlify proxy. Use full URL (e.g. http://localhost:3000) for local dev.
+// VITE_API_URL = API Gateway Invoke URL (e.g. https://xxx.execute-api.region.amazonaws.com/stage). Local dev: http://localhost:3000
 const API_BASE = (import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '');
 const API_URL = API_BASE.startsWith('http') ? `${API_BASE}/api` : (API_BASE || '/api');
 
