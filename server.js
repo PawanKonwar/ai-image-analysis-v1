@@ -145,8 +145,12 @@ Rules:
 
   app.get('/api/history', async (req, res) => {
     try {
-      const items = await Image.findAll({ order: [['id', 'DESC']] });
-      return res.json(items);
+      const images = await Image.findAll({ order: [['id', 'DESC']] });
+      const formattedImages = images.map (img => ({
+        ...img.toJSON(),
+        date: img.createdAt
+      }))
+      return res.json(formattedImages);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }

@@ -3,15 +3,12 @@ FROM node:20-alpine
 WORKDIR /app
 
 COPY package*.json ./
-RUN npm install
+RUN npm install --production
 
-# Copy everything
-COPY . .
+COPY server.js ./
+COPY src/ ./src/
+COPY models/ ./models/
 
-# EXPOSE the port
 EXPOSE 3000
 
-COPY global-bundle.pem ./
-
-# Run index.js from the src folder
-CMD ["node", "src/index.js"]
+CMD ["node", "server.js"]
