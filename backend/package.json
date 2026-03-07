@@ -1,0 +1,29 @@
+{
+  "name": "ai-image-analysis-backend",
+  "version": "1.0.0",
+  "description": "AI Image Analysis backend API",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "server": "node server.js",
+    "server:dev": "node --watch server.js",
+    "dev": "node --watch server.js"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.995.0",
+    "@aws-sdk/client-ssm": "^3.995.0",
+    "@aws-sdk/lib-storage": "^3.995.0",
+    "cors": "^2.8.6",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.1",
+    "multer": "^2.0.2",
+    "openai": "^4.73.0",
+    "pg": "^8.13.1",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.37.5"
+  }
+}

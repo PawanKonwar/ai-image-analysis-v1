@@ -1,0 +1,84 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+
+# Environment & secrets (never commit credentials - use IAM + Parameter Store in prod)
+.env
+.env.*
+.env.local
+backend/.env
+backend/.env.local
+config.json
+.env.development.local
+.env.test.local
+.env.production.local
+!.env.example
+
+# AWS / config (task definitions, etc.)
+backend/*.json
+task-def.json
+
+# AWS credentials
+.aws/
+*.pem
+credentials
+config
+aws-credentials*
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+.venv/
+venv/
+ENV/
+env/
+*.egg-info/
+.eggs/
+*.egg
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# Docker
+.docker/
+
+# Terraform
+.terraform/
+terraform.tfvars
+*.tfvars
+*.tfstate
+*.tfstate.*
+
+# Security: credential & key files
+*.key
+*.pem
+*.p12
+*.pfx
+secrets/
+.secrets/

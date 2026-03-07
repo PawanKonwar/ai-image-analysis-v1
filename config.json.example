@@ -1,0 +1,8 @@
+{
+  "PORT": 3000,
+  "OPENAI_API_KEY": "your-openai-api-key",
+  "DATABASE_URL": "postgres://user:password@host:5432/dbname",
+  "AWS_REGION": "us-east-1",
+  "S3_BUCKET_NAME": "your-bucket-name",
+  "CORS_ORIGIN": "https://your-vercel-app.vercel.app"
+}
