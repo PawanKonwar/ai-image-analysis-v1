@@ -1,4 +1,4 @@
-<img width="1153" height="236" alt="image" src="https://github.com/user-attachments/assets/2c96811d-d131-4a3b-abd4-fb255414ae78" />
+[![Deploy](https://github.com/PawanKonwar/ai-image-analysis-v1/actions/workflows/deploy.yml/badge.svg)](https://github.com/PawanKonwar/ai-image-analysis-v1/actions/workflows/deploy.yml)
 
 # AI Image Analysis
 
