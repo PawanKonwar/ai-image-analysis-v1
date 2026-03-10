@@ -1,3 +1,5 @@
+<img width="1153" height="236" alt="image" src="https://github.com/user-attachments/assets/2c96811d-d131-4a3b-abd4-fb255414ae78" />
+
 # AI Image Analysis
 
 An image analysis tool that leverages **OpenAI Vision** and **AWS** to process and interpret images. Users can upload images and receive AI-generated analysis including object detection, text extraction (OCR), dominant colors, and natural language descriptions. Results are persisted for review and history tracking.
