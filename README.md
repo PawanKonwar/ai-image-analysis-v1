@@ -1,32 +1,57 @@
-# AI Image Analysis Tool - Phase 1 Archive
+# AI Image Analysis
 
-## Project Overview
-
-An image analysis tool that leverages **OpenAI** and **AWS** to process and interpret images. Users can upload images and receive AI-generated analysis including object detection, text extraction (OCR), and natural language descriptions. Results are persisted for review and history tracking.
-
-## Tech Stack
-
-| Layer | Technology |
-|-------|------------|
-| **Runtime** | Node.js (v20+) |
-| **Backend** | Express, Sequelize, OpenAI API |
-| **Frontend** | React, Vite, Tailwind CSS |
-| **Database** | PostgreSQL (RDS) |
-| **Infrastructure** | Docker, AWS ECS (Fargate), ECR |
-
-## Current Status
-
-> **Research Archive**
-
-This project is preserved as a **Phase 1 research archive**. Image processing and analysis work correctly in local and containerized environments. The project is **currently paused** due to AWS Fargate CORS and networking challenges encountered when deploying the frontend and backend to ECS.
-
-## Next Steps
-
-The project is being **reset for a cleaner Phase 2 architecture**. Phase 2 will address the deployment and networking issues with a revised design, improved configuration, and clearer separation of concerns.
+An image analysis tool that leverages **OpenAI Vision** and **AWS** to process and interpret images. Users can upload images and receive AI-generated analysis including object detection, text extraction (OCR), dominant colors, and natural language descriptions. Results are persisted for review and history tracking.
 
 ---
 
-### Local Development (Reference)
+## Architecture
+
+| Layer | Technology |
+|-------|-------------|
+| **Frontend** | Next.js on Vercel |
+| **API** | API Gateway (REST) |
+| **Backend** | Node.js + Express on ECS Fargate |
+| **Storage** | Amazon S3 (image uploads) |
+| **Database** | Amazon RDS (PostgreSQL) |
+| **CI/CD** | GitHub Actions → ECR → ECS |
+
+- **Vercel** hosts the frontend and serves it over HTTPS.
+- **API Gateway** exposes the backend API with a public invoke URL.
+- **ECS Fargate** runs the backend container (no server management).
+- **S3** stores uploaded images with public-read ACL for OpenAI analysis.
+- **RDS** persists analysis metadata (descriptions, objects, categories) via Sequelize.
+
+---
+
+## Key Solves
+
+- **S3 DeleteObject IAM Policy** — Implemented the `s3:DeleteObject` IAM permission on the ECS Task Role so that when users delete a history item, the backend can remove the corresponding object from S3. Without this policy, delete operations would fail with access denied.
+- **RDS Timestamp "Invalid Date"** — Resolved by setting `timestamps: false` on the Image model and sorting history by `id` instead of `created_at`. The frontend now handles missing date fields gracefully with a fallback display.
+
+---
+
+## Security: Secretless Architecture
+
+This application uses a **secretless** design. No API keys, database passwords, or AWS credentials are stored in code or baked into images.
+
+- **Production**: All secrets (OpenAI API key, `DATABASE_URL`, `CORS_ORIGIN`, etc.) are stored in **AWS Systems Manager Parameter Store** and loaded at runtime via the ECS Task Role.
+- **IAM Task Role**: The Fargate task uses an IAM role for S3 (PutObject, DeleteObject) and Parameter Store (GetParameter) — no access keys in the container.
+- **Local development**: Uses `.env` and `.env.local` (gitignored); never committed.
+
+---
+
+## Tech Stack
+
+| Component | Stack |
+|-----------|-------|
+| Frontend | React, Vite, Tailwind CSS |
+| Backend | Node.js 20, Express, Sequelize |
+| AI | OpenAI GPT-4 Vision |
+| AWS | S3, RDS, ECS Fargate, Parameter Store, ECR |
+
+---
+
+## Local Development
 
 ```bash
 # Copy environment template
@@ -37,7 +62,16 @@ cp .env.example .env
 docker compose up --build
 ```
 
-- Frontend: http://localhost:5173  
-- Backend API: https://ai-image-analysis-v1.onrender.com
+- **Frontend**: http://localhost:5173
+- **Backend API**: http://localhost:3000
 
-Note: AWS Fargate CORS issues documented for Phase 2.
+---
+
+## Project Structure
+
+```
+├── frontend/          # React + Vite app (deployed to Vercel)
+├── backend/           # Express API (Docker → ECR → ECS)
+├── infrastructure/    # Terraform (VPC, RDS, ECS, S3)
+└── .github/workflows/ # CI/CD (deploy.yml)
+```

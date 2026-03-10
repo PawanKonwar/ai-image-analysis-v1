@@ -41,7 +41,9 @@ const Image = sequelize.define('Image', {
 }, {
   tableName: 'analyses',
   underscored: true,
-  timestamps: false,
+  timestamps: true,
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
 });
 
 export default Image;

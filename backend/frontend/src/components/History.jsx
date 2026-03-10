@@ -5,9 +5,7 @@ const API_BASE = (import.meta.env.VITE_API_URL ?? '').replace(/\/$/, '');
 const API_URL = API_BASE.startsWith('http') ? `${API_BASE}/api` : (API_BASE || '/api');
 
 function formatDate(dateStr) {
-  if (!dateStr) return '—';
   const d = new Date(dateStr);
-  if (isNaN(d.getTime())) return '—';
   const now = new Date();
   const diffMs = now - d;
   const diffMins = Math.floor(diffMs / 60000);

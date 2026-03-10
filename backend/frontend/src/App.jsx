@@ -65,9 +65,8 @@ function HistoryCard({ item, onDelete, formatDate, getCategoryColor }) {
 }
 
 function formatDate(dateStr) {
-  if (!dateStr) return '—'
   const d = new Date(dateStr)
-  return isNaN(d.getTime()) ? '—' : d.toLocaleDateString(undefined, {
+  return d.toLocaleDateString(undefined, {
     year: 'numeric',
     month: 'short',
     day: 'numeric',

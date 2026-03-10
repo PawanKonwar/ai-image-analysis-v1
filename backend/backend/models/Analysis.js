@@ -1,7 +1,7 @@
 import { DataTypes } from 'sequelize';
 import sequelize from './db.js';
 
-const Image = sequelize.define('Image', {
+const Analysis = sequelize.define('Analysis', {
   id: {
     type: DataTypes.INTEGER,
     primaryKey: true,
@@ -41,7 +41,9 @@ const Image = sequelize.define('Image', {
 }, {
   tableName: 'analyses',
   underscored: true,
-  timestamps: false,
+  timestamps: true,
+  createdAt: 'created_at',
+  updatedAt: 'updated_at',
 });
 
-export default Image;
+export default Analysis;

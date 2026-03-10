@@ -145,18 +145,12 @@ Rules:
 
   app.get('/api/history', async (req, res) => {
     try {
-      const images = await Image.findAll({ order: [['id', 'DESC']] });
-      const formattedImages = images.map (img => ({
-        ...img.toJSON(),
-        date: img.createdAt
-      }))
-      return res.json(formattedImages);
+      const items = await Image.findAll({ order: [['created_at', 'DESC']] });
+      return res.json(items);
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
   });
-
-  app.get('/health', (req, res) => res.status(200).send('Server is Up'));
 
   app.delete('/api/history/:id', async (req, res) => {
     try {
